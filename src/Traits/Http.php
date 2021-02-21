@@ -201,14 +201,15 @@ trait Http
     /**
      * Converts a reply_markup field in the $params to a string.
      *
-     * @param array $params
+     * @param  array  $params
      *
      * @return array
+     * @throws \JsonException
      */
     protected function replyMarkupToString(array $params): array
     {
         if (isset($params['reply_markup'])) {
-            $params['reply_markup'] = (string) $params['reply_markup'];
+            $params['reply_markup'] = json_encode($params['reply_markup'], JSON_THROW_ON_ERROR);
         }
 
         return $params;
