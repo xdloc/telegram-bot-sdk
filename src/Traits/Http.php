@@ -2,7 +2,6 @@
 
 namespace Telegram\Bot\Traits;
 
-use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\CouldNotUploadInputFile;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\FileUpload\InputFile;
@@ -157,7 +156,7 @@ trait Http
      * @param int $connectTimeOut
      *
      * @return $this
-     *Log::
+     */
     public function setConnectTimeOut(int $connectTimeOut)
     {
         $this->connectTimeOut = $connectTimeOut;
@@ -195,9 +194,8 @@ trait Http
     protected function post(string $endpoint, array $params = [], $fileUpload = false): TelegramResponse
     {
         $params = $this->normalizeParams($params, $fileUpload);
-        $answer = $this->sendRequest('POST', $endpoint, $params);
-        Log::info('Post',$answer);
-        return $answer;
+
+        return $this->sendRequest('POST', $endpoint, $params);
     }
 
     /**
@@ -343,7 +341,7 @@ trait Http
         }
 
         // All file-paths, urls, or file resources should be provided by using the InputFile object
-        if ((! $params[$inputFileField] instanceof InputFile) && (is_string($params[$inputFileField]) && ! $this->is_json($params[$inputFileField]))) {
+        if ((! $params[$inputFileField] instanceof InputFile) || (is_string($params[$inputFileField]) && ! $this->is_json($params[$inputFileField]))) {
             throw CouldNotUploadInputFile::inputFileParameterShouldBeInputFileEntity($inputFileField);
         }
     }
