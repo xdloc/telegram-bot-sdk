@@ -2,6 +2,7 @@
 
 namespace Telegram\Bot\Methods;
 
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Objects\Chat as ChatObject;
@@ -240,7 +241,7 @@ trait Chat
     public function pinChatMessage(array $params): bool
     {
         $response = $this->post('pinChatMessage', $params);
-
+        Log::info('pinChatMessage response',$response);
         return $response->getResult();
     }
 
