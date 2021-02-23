@@ -241,7 +241,7 @@ trait Chat
     public function pinChatMessage(array $params): bool
     {
         $response = $this->post('pinChatMessage', $params);
-        Log::info('pinChatMessage response',$response);
+        Log::info('pinChatMessage response',(array)$response);
         return $response->getResult();
     }
 
