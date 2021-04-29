@@ -10,17 +10,17 @@ class HelpCommand extends Command
     /**
      * @var string Command Name
      */
-    protected $name = 'help';
+    protected string $name = 'help';
 
     /**
      * @var array Command Aliases
      */
-    protected $aliases = ['listcommands'];
+    protected array $aliases = ['listcommands'];
 
     /**
      * @var string Command Description
      */
-    protected $description = 'Help command, Get a list of commands';
+    protected string $description = 'Help command, Get a list of commands';
 
     /**
      * {@inheritdoc}
