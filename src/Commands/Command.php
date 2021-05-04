@@ -20,19 +20,19 @@ abstract class Command implements CommandInterface
      *
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /** @var string[] Command Aliases - Helpful when you want to trigger command with more than one name. */
-    protected $aliases = [];
+    protected array $aliases = [];
 
     /** @var string The Telegram command description. */
-    protected $description;
+    protected string $description;
 
     /** @var array Holds parsed command arguments */
-    protected $arguments = [];
+    protected array $arguments = [];
 
     /** @var string Command Argument Pattern */
-    protected $pattern = '';
+    protected string $pattern = '';
 
     /** @var array|null Details of the current entity this command is responding to - offset, length, type etc */
     protected $entity;
