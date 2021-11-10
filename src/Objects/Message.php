@@ -93,7 +93,7 @@ class Message extends BaseObject
             'invoice'            => Invoice::class,
             'successful_payment' => SuccessfulPayment::class,
             'passport'           => PassportData::class,
-            'sender_chat'        => Chat::class
+            'sender_chat'        => Chat::class,
         ];
     }
 
