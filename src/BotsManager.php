@@ -21,14 +21,19 @@ class BotsManager
     /** @var Api[] The active bot instances. */
     protected $bots = [];
 
+    /** @var array */
+    protected $botsConfig = [];
+
     /**
      * TelegramManager constructor.
      *
-     * @param array $config
+     * @param  array  $config
+     * @param  array  $botsConfig
      */
-    public function __construct(array $config)
+    public function __construct(array $config, array $botsConfig = [])
     {
         $this->config = $config;
+        $this->botsConfig = $botsConfig;
     }
 
     /**
@@ -58,7 +63,7 @@ class BotsManager
     {
         $name = $name ?? $this->getDefaultBotName();
 
-        $bots = collect($this->getConfig('bots'));
+        $bots = collect($this->botsConfig);
 
         if (! $config = $bots->get($name, null)) {
             throw new InvalidArgumentException("Bot [$name] not configured.");
