@@ -47,41 +47,44 @@ class BotsManager
         return $this;
     }
 
+
     /**
      * Get the configuration for a bot.
      *
-     * @param  string|null  $name
+     * @param string|null $name
      *
-     * @return array
      * @throws InvalidArgumentException
      *
+     * @return array
      */
     public function getBotConfig($name = null): array
     {
         $name = $name ?? $this->getDefaultBotName();
 
-        try{
-            $bot = Bot::init($name);
-        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $exception){
+        $bots = collect($this->getConfig('bots'));
+
+        if (! $config = $bots->get($name, null)) {
             throw new InvalidArgumentException("Bot [$name] not configured.");
         }
 
-        return $bot;
+        $config['bot'] = $name;
+
+        return $config;
     }
 
     /**
      * Get a bot instance.
      *
-     * @param  string  $name
+     * @param string $name
      *
-     * @return Api
      * @throws TelegramSDKException
+     * @return Api
      */
     public function bot($name = null): Api
     {
         $name = $name ?? $this->getDefaultBotName();
 
-        if (!isset($this->bots[$name])) {
+        if (! isset($this->bots[$name])) {
             $this->bots[$name] = $this->makeBot($name);
         }
 
@@ -91,10 +94,10 @@ class BotsManager
     /**
      * Reconnect to the given bot.
      *
-     * @param  string  $name
+     * @param string $name
      *
-     * @return Api
      * @throws TelegramSDKException
+     * @return Api
      */
     public function reconnect($name = null): Api
     {
@@ -107,7 +110,7 @@ class BotsManager
     /**
      * Disconnect from the given bot.
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return BotsManager
      */
@@ -122,8 +125,8 @@ class BotsManager
     /**
      * Get the specified configuration value for Telegram.
      *
-     * @param  string  $key
-     * @param  mixed  $default
+     * @param string $key
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -145,7 +148,7 @@ class BotsManager
     /**
      * Set the default bot name.
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return BotsManager
      */
@@ -169,7 +172,7 @@ class BotsManager
     /**
      * De-duplicate an array.
      *
-     * @param  array  $array
+     * @param array $array
      *
      * @return array
      */
@@ -181,10 +184,10 @@ class BotsManager
     /**
      * Make the bot instance.
      *
-     * @param  string  $name
+     * @param string $name
      *
-     * @return Api
      * @throws TelegramSDKException
+     * @return Api
      */
     protected function makeBot($name): Api
     {
@@ -215,7 +218,7 @@ class BotsManager
     /**
      * Builds the list of commands for the given commands array.
      *
-     * @param  array  $commands
+     * @param array $commands
      *
      * @return array An array of commands which includes global and bot specific commands.
      */
@@ -230,13 +233,13 @@ class BotsManager
     /**
      * Parse an array of commands and build a list.
      *
-     * @param  array  $commands
+     * @param array $commands
      *
      * @return array
      */
     protected function parseCommands(array $commands): array
     {
-        if (!is_array($commands)) {
+        if (! is_array($commands)) {
             return $commands;
         }
 
@@ -262,7 +265,7 @@ class BotsManager
                 $command = $sharedCommands[$command];
             }
 
-            if (!in_array($command, $results)) {
+            if (! in_array($command, $results)) {
                 $results[] = $command;
             }
         }
@@ -273,11 +276,11 @@ class BotsManager
     /**
      * Magically pass methods to the default bot.
      *
-     * @param  string  $method
-     * @param  array  $parameters
+     * @param string $method
+     * @param array  $parameters
      *
-     * @return mixed
      * @throws TelegramSDKException
+     * @return mixed
      */
     public function __call($method, $parameters)
     {
