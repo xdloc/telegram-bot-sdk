@@ -60,9 +60,9 @@ class BotsManager
     {
         $name = $name ?? $this->getDefaultBotName();
 
-        $bot = Bot::init($name);
-
-        if (!$bot) {
+        try{
+            $bot = Bot::init($name);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $exception){
             throw new InvalidArgumentException("Bot [$name] not configured.");
         }
 
