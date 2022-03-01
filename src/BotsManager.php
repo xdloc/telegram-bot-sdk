@@ -6,7 +6,6 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use App\Models\Bot;
 
 /**
  * Class BotsManager.
