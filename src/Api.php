@@ -42,16 +42,22 @@ class Api
     const BOT_TOKEN_ENV_NAME = 'TELEGRAM_BOT_TOKEN';
 
     /**
+     * @var int|null
+     */
+    public ?int $botId = null;
+
+    /**
      * Instantiates a new Telegram super-class object.
      *
      *
-     * @param string                   $token             The Telegram Bot API Access Token.
-     * @param bool                     $async             (Optional) Indicates if the request to Telegram will be asynchronous (non-blocking).
-     * @param HttpClientInterface|null $httpClientHandler (Optional) Custom HTTP Client Handler.
+     * @param  string  $token  The Telegram Bot API Access Token.
+     * @param  bool  $async  (Optional) Indicates if the request to Telegram will be asynchronous (non-blocking).
+     * @param  HttpClientInterface|null  $httpClientHandler  (Optional) Custom HTTP Client Handler.
+     * @param  int|null  $botId
      *
      * @throws TelegramSDKException
      */
-    public function __construct($token = null, $async = false, $httpClientHandler = null)
+    public function __construct($token = null, $async = false, $httpClientHandler = null, int $botId = null)
     {
         $this->accessToken = $token ?? getenv(static::BOT_TOKEN_ENV_NAME);
         $this->validateAccessToken();
@@ -61,6 +67,8 @@ class Api
         }
 
         $this->httpClientHandler = $httpClientHandler;
+
+        $this->botId = $botId;
     }
 
     /**
